@@ -2,12 +2,12 @@
 
 ## Mô tả dự án
 
-Dự án này áp dụng thuật toán **BFS (Breadth-First Search)** để tìm đường đi ngắn nhất giữa 2 tỉnh thành bất kỳ ở Việt Nam. Dự án sử dụng dữ liệu từ [vietnamese-provinces-database](../vietnamese-provinces-database) để xây dựng đồ thị các tỉnh thành lân cận và tính toán lộ trình di chuyển.
+Dự án này áp dụng thuật toán **BFS (Breadth-First Search)** để tìm đường đi giữa 2 tỉnh thành bất kỳ ở Việt Nam. Dự án sử dụng dữ liệu từ [vietnamese-provinces-database](../vietnamese-provinces-database) để xây dựng đồ thị các tỉnh thành lân cận và tính toán lộ trình di chuyển.
 
 
 ## Tính năng
 
-- 🗺️ **Pathfinding:** Tìm đường đi ngắn nhất giữa 2 tỉnh (BFS algorithm, <1ms)
+- 🗺️ **Pathfinding:** Tìm đường đi giữa 2 tỉnh (BFS algorithm, <1ms)
 - 🔍 **Fuzzy Search:** Tìm kiếm tỉnh không cần dấu (ví dụ: "ha noi" → Hà Nội)
 - 📊 **Province Info:** Thông tin chi tiết về tỉnh và các tỉnh lân cận
 - 🌐 **REST API:** FastAPI với Swagger UI documentation
@@ -16,7 +16,7 @@ Dự án này áp dụng thuật toán **BFS (Breadth-First Search)** để tìm
 
 ## Thuật toán BFS
 
-**BFS (Breadth-First Search)** là thuật toán duyệt đồ thị theo chiều rộng, phù hợp để tìm đường đi ngắn nhất trong đồ thị không trọng số. Thuật toán hoạt động bằng cách:
+**BFS (Breadth-First Search)** là thuật toán duyệt đồ thị theo chiều rộng, phù hợp để tìm đường đi trong đồ thị không trọng số. Thuật toán hoạt động bằng cách:
 
 1. Bắt đầu từ tỉnh xuất phát
 2. Duyệt lần lượt các tỉnh lân cận (cách 1 bước)
@@ -41,7 +41,7 @@ Dự án sử dụng dữ liệu từ `vietnamese-provinces-database` bao gồm:
 |--------|----------|-------|
 | `GET` | `/health` | Kiểm tra trạng thái hệ thống |
 | `GET` | `/docs` | Swagger UI Documentation |
-| `POST` | `/api/v1/path/find` | Tìm đường đi ngắn nhất |
+| `POST` | `/api/v1/path/find` | Tìm đường đi |
 | `POST` | `/api/v1/path/reachable` | Tìm các tỉnh có thể đến được |
 | `POST` | `/api/v1/path/connectivity` | Kiểm tra kết nối 2 tỉnh |
 | `GET` | `/api/v1/provinces` | Danh sách tất cả tỉnh |
