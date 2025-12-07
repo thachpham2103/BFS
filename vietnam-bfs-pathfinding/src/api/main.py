@@ -4,7 +4,6 @@ from pathlib import Path
 from contextlib import asynccontextmanager
 from typing import Dict
 
-# IMPORTANT: Add paths to sys.path BEFORE importing local modules
 project_root = Path(__file__).parent.parent.parent
 src_root = project_root / "src"
 sys.path.insert(0, str(project_root))
@@ -74,6 +73,7 @@ async def lifespan(app: FastAPI):
         
         logger.info(
             f"API started successfully with {registry.count()} provinces"
+            f"\nURl:      localhost:{settings.api_port}/docs#/"
         )
         
         yield
@@ -163,7 +163,6 @@ async def health_check() -> Dict:
 # Error handlers
 @app.exception_handler(404)
 async def not_found_handler(request, exc):
-    """Handle 404 errors."""
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,
         content={
@@ -175,7 +174,6 @@ async def not_found_handler(request, exc):
 
 @app.exception_handler(500)
 async def internal_error_handler(request, exc):
-    """Handle 500 errors."""
     logger.error(f"Internal server error: {exc}", exc_info=True)
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
