@@ -130,6 +130,10 @@ class ProvinceRegistry:
     def get_by_code(self, code: str) -> Optional[Province]:
         if not self._initialized:
             raise RuntimeError("ProvinceRegistry not initialized")
+        
+        if code.isdigit():
+            code = code.zfill(2)
+        
         return self._provinces.get(code)
     
     def get_by_name(self, name: str, fuzzy: bool = True) -> Optional[Province]:
