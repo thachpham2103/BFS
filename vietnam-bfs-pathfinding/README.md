@@ -8,10 +8,8 @@ Dự án này áp dụng thuật toán **BFS (Breadth-First Search)** để tìm
 ## Tính năng
 
 - 🗺️ **Pathfinding:** Tìm đường đi giữa 2 tỉnh (BFS algorithm, <1ms)
-- 🔍 **Fuzzy Search:** Tìm kiếm tỉnh không cần dấu (ví dụ: "ha noi" → Hà Nội)
 - 📊 **Province Info:** Thông tin chi tiết về tỉnh và các tỉnh lân cận
 - 🌐 **REST API:** FastAPI với Swagger UI documentation
-- ⚡ **High Performance:** Average pathfinding time <1ms, API response <50ms
 - 🎯 **34 Provinces:** Hỗ trợ 34 tỉnh thành Việt Nam (sau sáp nhập hành chính)
 
 ## Thuật toán BFS
@@ -46,8 +44,6 @@ Dự án sử dụng dữ liệu từ `vietnamese-provinces-database` bao gồm:
 | `POST` | `/api/v1/path/connectivity` | Kiểm tra kết nối 2 tỉnh |
 | `GET` | `/api/v1/provinces` | Danh sách tất cả tỉnh |
 | `GET` | `/api/v1/provinces/{id}` | Thông tin chi tiết tỉnh |
-| `POST` | `/api/v1/provinces/search` | Tìm kiếm tỉnh theo tên |
-| `GET` | `/api/v1/statistics` | Thống kê hệ thống |
 
 
 ## Hướng Dẫn Chạy API
@@ -67,7 +63,7 @@ python src/api/main.py
 
 ## Bước 3: Kiểm tra API đang chạy
 
-Sau khi khởi động, API sẽ chạy tại: **http://localhost:8000**
+Sau khi khởi động, API sẽ chạy tại: **http://localhost:8000/docs**
 
 ### Kiểm tra Health Check
 ```bash
@@ -81,7 +77,7 @@ curl http://localhost:8000/health
 POST /api/v1/path/find
 {
   "start": "Hà Nội",
-  "end": "TP. Hồ Chí Minh",
+  "end": "Hồ Chí Minh",
   "fuzzy_match": true
 }
 ```
@@ -128,18 +124,6 @@ Thời gian: 0.26ms
 - **BƯỚC 4:** BFS Algorithm Implementation (ProvinceGraph, BFSPathfinder)
 - **BƯỚC 5:** Service Layer (PathfindingService với 15+ methods)
 - **BƯỚC 6:** REST API với FastAPI (9+ endpoints, Swagger UI)
-- **BƯỚC 7:** CLI Tool (TODO)
-- **BƯỚC 8:** Testing (pytest, >85% coverage) (TODO)
-- **BƯỚC 9:** Documentation & Code Quality (TODO)
-- **BƯỚC 10:** Integration & Deployment (TODO)
-
-## 🚀 Performance
-
-- **API Startup:** ~0.5s
-- **BFS Pathfinding:** <1ms (average 0.05ms)
-- **API Response Time:** <50ms
-- **Memory Usage:** ~30MB (34 provinces loaded)
-- **Concurrent Requests:** Hỗ trợ multiple workers với Uvicorn
 
 
 ## 🛠️ Tech Stack
@@ -147,8 +131,6 @@ Thời gian: 0.26ms
 - **Language:** Python 3.11
 - **Web Framework:** FastAPI 0.104.1
 - **Validation:** Pydantic 2.5.0 (TODO)
-- **ASGI Server:** Uvicorn 0.24.0 (TODO)
-- **Testing:** pytest 7.4.3 (TODO)
 - **Algorithm:** BFS (Breadth-First Search)
 - **Data Structure:** Adjacency List Graph
 
