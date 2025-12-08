@@ -71,6 +71,10 @@ class PathRequest(BaseModel):
         default=True,
         description="Cho phép tìm kiếm gần đúng"
     )
+    road_type: Optional[str] = Field(
+        default="national",
+        description="Loại đường: default (khoảng cách theo BFS), highway (cao tốc), national (quốc lộ), provincial (tỉnh lộ)"
+    )
     
     @field_validator('start', 'end')
     @classmethod
@@ -79,12 +83,23 @@ class PathRequest(BaseModel):
             raise ValueError("Không được để trống")
         return v.strip()
     
+    @field_validator('road_type')
+    @classmethod
+    def validate_road_type(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return "national"
+        allowed = ["default", "highway", "national", "provincial", "unknown"]
+        if v.lower() not in allowed:
+            raise ValueError(f"road_type phải là một trong: {', '.join(allowed)}")
+        return v.lower()
+    
     model_config = {
         "json_schema_extra": {
             "example": {
                 "start": "Hà Nội",
                 "end": "Hồ Chí Minh",
-                "fuzzy_match": True
+                "fuzzy_match": True,
+                "road_type": "national"
             }
         }
     }
@@ -93,17 +108,38 @@ class PathRequest(BaseModel):
 class PathStepSchema(BaseModel):
 
     step_number: int = Field(..., description="Số thứ tự bước")
-    from_province: dict = Field(..., description="Tỉnh xuất phát")
-    to_province: dict = Field(..., description="Tỉnh đích")
+    from_: dict = Field(..., alias="from", description="Tỉnh xuất phát với tọa độ")
+    to: dict = Field(..., description="Tỉnh đích với tọa độ")
+    distance_km: Optional[float] = Field(None, description="Khoảng cách đoạn đường (km)")
+    road_type: Optional[str] = Field(None, description="Loại đường")
+    road_name: Optional[str] = Field(None, description="Tên đường")
+    
+    model_config = {
+        "populate_by_name": True
+    }
+
+
+class CoordinateSchema(BaseModel):
+    """Schema cho tọa độ tỉnh"""
+    code: str = Field(..., description="Mã tỉnh")
+    name: str = Field(..., description="Tên tỉnh")
+    latitude: Optional[float] = Field(None, description="Vĩ độ")
+    longitude: Optional[float] = Field(None, description="Kinh độ")
 
 
 class PathResponse(BaseModel):
 
     path: List[str] = Field(..., description="Danh sách tên tỉnh trong đường đi")
     path_codes: List[str] = Field(..., description="Danh sách mã tỉnh trong đường đi")
+    path_coordinates: List[CoordinateSchema] = Field(
+        default_factory=list,
+        description="Danh sách tọa độ các tỉnh để vẽ bản đồ"
+    )
     distance: int = Field(..., description="Số lượng tỉnh trong đường đi")
-    start_province: dict = Field(..., description="Thông tin tỉnh bắt đầu")
-    end_province: dict = Field(..., description="Thông tin tỉnh kết thúc")
+    total_distance_km: float = Field(0.0, description="Tổng khoảng cách đường bộ (km)")
+    road_type: Optional[str] = Field(None, description="Loại đường được chọn")
+    start_province: dict = Field(..., description="Thông tin tỉnh bắt đầu với tọa độ")
+    end_province: dict = Field(..., description="Thông tin tỉnh kết thúc với tọa độ")
     execution_time_ms: float = Field(..., description="Thời gian tìm kiếm (ms)")
     timestamp: datetime = Field(..., description="Thời điểm tìm kiếm")
     
@@ -112,16 +148,34 @@ class PathResponse(BaseModel):
             "example": {
                 "path": ["Hà Nội", "Phú Thọ", "Thanh Hóa"],
                 "path_codes": ["01", "25", "38"],
+                "path_coordinates": [
+                    {
+                        "code": "01",
+                        "name": "Hà Nội",
+                        "latitude": 21.0285,
+                        "longitude": 105.8541
+                    }
+                ],
                 "distance": 3,
+                "total_distance_km": 180.5,
+                "road_type": "national",
                 "start_province": {
                     "code": "01",
                     "name": "Hà Nội",
-                    "full_name": "Thành phố Hà Nội"
+                    "full_name": "Thành phố Hà Nội",
+                    "coordinates": {
+                        "latitude": 21.0285,
+                        "longitude": 105.8541
+                    }
                 },
                 "end_province": {
                     "code": "38",
                     "name": "Thanh Hóa",
-                    "full_name": "Tỉnh Thanh Hóa"
+                    "full_name": "Tỉnh Thanh Hóa",
+                    "coordinates": {
+                        "latitude": 19.8,
+                        "longitude": 105.78
+                    }
                 },
                 "execution_time_ms": 0.15,
                 "timestamp": "2025-01-01T10:00:00"

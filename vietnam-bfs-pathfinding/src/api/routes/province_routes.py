@@ -13,14 +13,10 @@ from models.exceptions import ProvinceNotFoundError, InvalidInputError
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/provinces", tags=["Provinces"])
+router = APIRouter(prefix="/provinces", tags=["provinces"])
 
 
 def get_service() -> PathfindingService:
-    """Dependency injection cho PathfindingService.
-    
-    Vai trò: Tạo/lấy instance service cho các endpoint, cần được config trong main.py.
-    """
     raise NotImplementedError("Service dependency not configured")
 
 
@@ -34,10 +30,6 @@ def get_service() -> PathfindingService:
 async def get_all_provinces(
     service: PathfindingService = Depends(get_service)
 ) -> List[Dict]:
-    """API endpoint lấy danh sách tất cả tỉnh.
-    
-    Vai trò: Cung cấp dữ liệu cho dropdown/select trong frontend.
-    """
     try:
         logger.info("Getting all provinces")
         provinces = service.get_all_provinces()
@@ -69,10 +61,6 @@ async def get_province(
     province_id: str,
     service: PathfindingService = Depends(get_service)
 ) -> Dict:
-    """API endpoint lấy thông tin chi tiết một tỉnh.
-    
-    Vai trò: Trả về thông tin tỉnh và danh sách tỉnh lân cận.
-    """
     try:
         logger.info(f"Getting province info: {province_id}")
         info = service.get_province_info(province_id)

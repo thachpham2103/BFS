@@ -23,14 +23,10 @@ from models.exceptions import (
 logger = logging.getLogger(__name__)
 
 # Create router
-router = APIRouter(prefix="/path", tags=["Pathfinding"])
+router = APIRouter(prefix="/path", tags=["pathfinding"])
 
 
 def get_service() -> PathfindingService:
-    """Dependency injection cho PathfindingService.
-    
-    Vai trò: Tạo/lấy instance service cho các endpoint, cần được config trong main.py.
-    """
     raise NotImplementedError("Service dependency not configured")
 
 
@@ -59,23 +55,24 @@ async def find_path(
     request: PathRequest,
     service: PathfindingService = Depends(get_service)
 ) -> Dict:
-    """API endpoint tìm đường đi ngắn nhất giữa hai tỉnh.
-    
-    Vai trò: Xử lý request tìm đường, convert exception thành HTTP response phù hợp.
-    """
     try:
-        logger.info(f"Finding path: {request.start} -> {request.end}")
+        logger.info(
+            f"Finding path: {request.start} -> {request.end}, "
+            f"road_type={request.road_type}"
+        )
         
         result = service.find_path(
             request.start,
             request.end,
-            fuzzy_match=request.fuzzy_match
+            fuzzy_match=request.fuzzy_match,
+            road_type=request.road_type
         )
         
         response = result.to_dict()
         
         logger.info(
             f"Path found: {result.distance} provinces, "
+            f"{result.total_distance_km:.2f}km, "
             f"{result.execution_time * 1000:.2f}ms"
         )
         
@@ -135,10 +132,6 @@ async def get_reachable_provinces(
     request: ReachableRequest,
     service: PathfindingService = Depends(get_service)
 ) -> Dict:
-    """API endpoint lấy danh sách tỉnh tiếp cận được.
-    
-    Vai trò: Trả về các tỉnh trong phạm vi khoảng cách cho trước từ điểm xuất phát.
-    """
     try:
         logger.info(
             f"Finding reachable provinces from {request.start} "
@@ -199,10 +192,6 @@ async def check_connectivity(
     request: ConnectivityRequest,
     service: PathfindingService = Depends(get_service)
 ) -> Dict:
-    """API endpoint kiểm tra kết nối giữa hai tỉnh.
-    
-    Vai trò: Kiểm tra nhanh sự tồn tại đường đi mà không tính toán đường đi cụ thể.
-    """
     try:
         logger.info(
             f"Checking connectivity: {request.province1} <-> {request.province2}"

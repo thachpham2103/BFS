@@ -90,7 +90,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Finding Distance API",
-    description="API để tìm đường đi ngắn nhất giữa các tỉnh thành Việt Nam",
+    description="API để tìm đường đi giữa các tỉnh thành Việt Nam bằng thuật toán BFS",
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
@@ -112,22 +112,6 @@ app.include_router(province_routes.router, prefix="/api/v1")
 
 app.dependency_overrides[path_routes.get_service] = get_pathfinding_service
 app.dependency_overrides[province_routes.get_service] = get_pathfinding_service
-
-
-@app.get(
-    "/",
-    summary="Root endpoint",
-    description="Endpoint gốc trả về thông tin API",
-)
-async def root() -> Dict:
-
-    return {
-        "message": "Finding Distance API",
-        "version": "1.0.0",
-        "description": "API để tìm đường đi ngắn nhất giữa các tỉnh thành Việt Nam",
-        "docs": "/docs",
-        "health": "/health"
-    }
 
 
 @app.get(
