@@ -23,6 +23,8 @@ class Province:
     code_name: str
     name_en: str = ""
     full_name_en: str = ""
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
     neighbors: List[str] = field(default_factory=list)
     
     def __post_init__(self) -> None:
@@ -55,12 +57,18 @@ class Province:
             "code_name": self.code_name,
             "name_en": self.name_en,
             "full_name_en": self.full_name_en,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
             "neighbors": list(self.neighbors),
             "neighbor_count": self.neighbor_count
         }
     
     @staticmethod
     def from_dict(data: Dict) -> 'Province':
+        coordinates = data.get("coordinates", [])
+        latitude = coordinates[0] if len(coordinates) > 0 else None
+        longitude = coordinates[1] if len(coordinates) > 1 else None
+        
         return Province(
             code=data["code"],
             name=data["name"],
@@ -68,6 +76,8 @@ class Province:
             code_name=data["code_name"],
             name_en=data.get("name_en", ""),
             full_name_en=data.get("full_name_en", ""),
+            latitude=latitude,
+            longitude=longitude,
             neighbors=data.get("neighbors", [])
         )
     
@@ -114,15 +124,10 @@ class ProvinceRegistry:
                 code = prov_data["code"]
                 neighbors = adjacency_data.get(code, [])
                 
-                province = Province(
-                    code=code,
-                    name=prov_data["name"],
-                    full_name=prov_data["full_name"],
-                    code_name=prov_data["code_name"],
-                    name_en=prov_data.get("name_en", ""),
-                    full_name_en=prov_data.get("full_name_en", ""),
-                    neighbors=neighbors
-                )
+                prov_data_with_neighbors = prov_data.copy()
+                prov_data_with_neighbors["neighbors"] = neighbors
+                
+                province = Province.from_dict(prov_data_with_neighbors)
                 self._provinces[code] = province
             
             self._initialized = True

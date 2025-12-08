@@ -6,12 +6,14 @@ from graph.graph_builder import GraphBuilder
 from graph.province_graph import ProvinceGraph
 from models.province import Province, ProvinceRegistry
 from models.path_result import PathResult
+from models.road_segment import RoadSegment, RoadType
 from models.exceptions import (
     ProvinceNotFoundError,
     NoPathFoundError,
     InvalidInputError,
     GraphNotBuiltError
 )
+from services.distance_service import DistanceCalculator
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +40,7 @@ class PathfindingService:
             self.graph = graph
         
         self.pathfinder = BFSPathfinder(self.graph)
+        self.distance_calculator = DistanceCalculator()
         
         logger.info(
             f"PathfindingService initialized with {self.registry.count()} provinces"
@@ -47,7 +50,8 @@ class PathfindingService:
         self,
         start: Union[str, Province],
         end: Union[str, Province],
-        fuzzy_match: bool = True
+        fuzzy_match: bool = True,
+        road_type: str = "national"
     ) -> PathResult:
 
         if not start or not end:
@@ -61,7 +65,7 @@ class PathfindingService:
         
         logger.info(
             f"Finding path: {start_province.name} ({start_province.code}) -> "
-            f"{end_province.name} ({end_province.code})"
+            f"{end_province.name} ({end_province.code}), road_type={road_type}"
         )
         
         try:
@@ -70,8 +74,42 @@ class PathfindingService:
                 end_province.code
             )
             
+            try:
+                road_type_enum = RoadType(road_type.lower())
+            except ValueError:
+                logger.warning(f"Invalid road_type: {road_type}, using NATIONAL")
+                road_type_enum = RoadType.NATIONAL
+            
+            road_segments = []
+            total_distance = 0.0
+            
+            for i in range(len(result.path) - 1):
+                from_prov = result.path[i]
+                to_prov = result.path[i + 1]
+                
+                try:
+                    segment = self.distance_calculator.create_road_segment(
+                        from_prov,
+                        to_prov,
+                        road_type_enum
+                    )
+                    road_segments.append(segment)
+                    total_distance += segment.distance_km
+                    
+                    logger.debug(
+                        f"Segment {i+1}: {from_prov.name} -> {to_prov.name}, "
+                        f"{segment.distance_km:.2f}km"
+                    )
+                except ValueError as e:
+                    logger.warning(f"Could not calculate distance: {e}")
+            
+            result.road_segments = road_segments
+            result.total_distance_km = total_distance
+            result.road_type = road_type
+            
             logger.info(
                 f"Path found: {result.distance} provinces, "
+                f"{total_distance:.2f}km, "
                 f"{result.execution_time * 1000:.2f}ms"
             )
             

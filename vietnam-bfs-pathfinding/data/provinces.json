@@ -7,7 +7,7 @@
     "full_name": "Thành phố Hà Nội",
     "full_name_en": "Ha Noi City",
     "code_name": "ha_noi",
-    "coordinates": [21.0285, 105.8542]
+    "coordinates": [21.028575813283485, 105.85412781421053]
   },
   {
     "id": 2,
@@ -17,7 +17,7 @@
     "full_name": "Tỉnh Cao Bằng",
     "full_name_en": "Cao Bang Province",
     "code_name": "cao_bang",
-    "coordinates": [22.6356, 106.2522]
+    "coordinates": [22.666324012172744, 106.25794629812626]
   },
   {
     "id": 3,
@@ -27,7 +27,7 @@
     "full_name": "Tỉnh Tuyên Quang",
     "full_name_en": "Tuyen Quang Province",
     "code_name": "tuyen_quang",
-    "coordinates": [21.8236, 105.2280]
+    "coordinates": [21.822523445728372, 105.21711788437017]
   },
   {
     "id": 4,
@@ -37,7 +37,7 @@
     "full_name": "Tỉnh Điện Biên",
     "full_name_en": "Dien Bien Province",
     "code_name": "dien_bien",
-    "coordinates": [21.3894, 103.0177]
+    "coordinates": [21.38558339703366, 103.0159066312278]
   },
   {
     "id": 5,
@@ -47,7 +47,7 @@
     "full_name": "Tỉnh Lai Châu",
     "full_name_en": "Lai Chau Province",
     "code_name": "lai_chau",
-    "coordinates": [22.3864, 103.4702]
+    "coordinates": [22.38982105950398, 103.47648369246825]
   },
   {
     "id": 6,
@@ -57,7 +57,7 @@
     "full_name": "Tỉnh Sơn La",
     "full_name_en": "Son La Province",
     "code_name": "son_la",
-    "coordinates": [21.3256, 103.9188]
+    "coordinates": [21.321284303893716, 103.91128844712352]
   },
   {
     "id": 7,
@@ -67,7 +67,7 @@
     "full_name": "Tỉnh Lào Cai",
     "full_name_en": "Lao Cai Province",
     "code_name": "lao_cai",
-    "coordinates": [22.4809, 103.9750]
+    "coordinates": [22.447880576873633, 104.00055951000179]
   },
   {
     "id": 8,
@@ -77,7 +77,7 @@
     "full_name": "Tỉnh Thái Nguyên",
     "full_name_en": "Thai Nguyen Province",
     "code_name": "thai_nguyen",
-    "coordinates": [21.5671, 105.8252]
+    "coordinates": [21.595036123422627, 105.84061038949365]
   },
   {
     "id": 9,
@@ -87,7 +87,7 @@
     "full_name": "Tỉnh Lạng Sơn",
     "full_name_en": "Lang Son Province",
     "code_name": "lang_son",
-    "coordinates": [21.8537, 106.7610]
+    "coordinates": [21.846839088066325, 106.75793216766229]
   },
   {
     "id": 10,
@@ -97,7 +97,7 @@
     "full_name": "Tỉnh Quảng Ninh",
     "full_name_en": "Quang Ninh Province",
     "code_name": "quang_ninh",
-    "coordinates": [21.0064, 107.2925]
+    "coordinates": [20.941825163281226, 107.12371796764374]
   },
   {
     "id": 11,
@@ -107,7 +107,7 @@
     "full_name": "Tỉnh Bắc Ninh",
     "full_name_en": "Bac Ninh Province",
     "code_name": "bac_ninh",
-    "coordinates": [21.1861, 106.0763]
+    "coordinates": [21.276155272211362, 106.20082643362642]
   },
   {
     "id": 12,
@@ -117,7 +117,7 @@
     "full_name": "Tỉnh Phú Thọ",
     "full_name_en": "Phu Tho Province",
     "code_name": "phu_tho",
-    "coordinates": [21.2682, 105.2045]
+    "coordinates": [21.32289871889187, 105.40224696344426]
   },
   {
     "id": 13,
@@ -127,7 +127,7 @@
     "full_name": "Thành phố Hải Phòng",
     "full_name_en": "Hai Phong City",
     "code_name": "hai_phong",
-    "coordinates": [20.8449, 106.6881]
+    "coordinates": [20.86532625160416, 106.6838221914211]
   },
   {
     "id": 14,
@@ -137,7 +137,7 @@
     "full_name": "Tỉnh Hưng Yên",
     "full_name_en": "Hung Yen Province",
     "code_name": "hung_yen",
-    "coordinates": [20.6464, 106.0511]
+    "coordinates": [20.656023449373357, 106.05464127585726]
   },
   {
     "id": 15,
@@ -147,7 +147,7 @@
     "full_name": "Tỉnh Ninh Bình",
     "full_name_en": "Ninh Binh Province",
     "code_name": "ninh_binh",
-    "coordinates": [20.2506, 105.9745]
+    "coordinates": [20.258327414912976, 105.97677066763042]
   },
   {
     "id": 16,
@@ -157,7 +157,7 @@
     "full_name": "Tỉnh Thanh Hóa",
     "full_name_en": "Thanh Hoa Province",
     "code_name": "thanh_hoa",
-    "coordinates": [19.8067, 105.7851]
+    "coordinates": [19.807370696293415, 105.77539935701147]
   },
   {
     "id": 17,
@@ -167,7 +167,7 @@
     "full_name": "Tỉnh Nghệ An",
     "full_name_en": "Nghe An Province",
     "code_name": "nghe_an",
-    "coordinates": [18.6792, 105.6813]
+    "coordinates": [18.673214284412587, 105.69287136760134]
   },
   {
     "id": 18,
@@ -177,7 +177,7 @@
     "full_name": "Tỉnh Hà Tĩnh",
     "full_name_en": "Ha Tinh Province",
     "code_name": "ha_tinh",
-    "coordinates": [18.3430, 105.9050]
+    "coordinates": [18.343380125903806, 105.90565935224903]
   },
   {
     "id": 19,
@@ -187,7 +187,7 @@
     "full_name": "Tỉnh Quảng Trị",
     "full_name_en": "Quang Tri Province",
     "code_name": "quang_tri",
-    "coordinates": [16.7474, 107.1857]
+    "coordinates": [16.81754525355327, 107.0990590233876]
   },
   {
     "id": 20,
@@ -197,7 +197,7 @@
     "full_name": "Thành phố Huế",
     "full_name_en": "Hue City",
     "code_name": "hue",
-    "coordinates": [16.4637, 107.5909]
+    "coordinates": [16.462373637131996, 107.58515192367231]
   },
   {
     "id": 21,
@@ -207,7 +207,7 @@
     "full_name": "Thành phố Đà Nẵng",
     "full_name_en": "Da Nang City",
     "code_name": "da_nang",
-    "coordinates": [16.0544, 108.2022]
+    "coordinates": [16.07098078342932, 108.22516588826797]
   },
   {
     "id": 22,
@@ -217,7 +217,7 @@
     "full_name": "Tỉnh Quảng Ngãi",
     "full_name_en": "Quang Ngai Province",
     "code_name": "quang_ngai",
-    "coordinates": [15.1214, 108.8044]
+    "coordinates": [15.122403874297753, 108.80026288103652]
   },
   {
     "id": 23,
@@ -227,7 +227,7 @@
     "full_name": "Tỉnh Gia Lai",
     "full_name_en": "Gia Lai Province",
     "code_name": "gia_lai",
-    "coordinates": [13.9830, 108.0002]
+    "coordinates": [13.97933105268568, 108.00180013869547]
   },
   {
     "id": 24,
@@ -237,7 +237,7 @@
     "full_name": "Tỉnh Khánh Hòa",
     "full_name_en": "Khanh Hoa Province",
     "code_name": "khanh_hoa",
-    "coordinates": [12.2585, 109.0526]
+    "coordinates": [12.255162162795285, 109.19587433867623]
   },
   {
     "id": 25,
@@ -247,7 +247,7 @@
     "full_name": "Tỉnh Đắk Lắk",
     "full_name_en": "Dak Lak Province",
     "code_name": "dak_lak",
-    "coordinates": [12.7100, 108.2378]
+    "coordinates": [12.674366733555601, 108.04339032519053]
   },
   {
     "id": 26,
@@ -257,7 +257,7 @@
     "full_name": "Tỉnh Lâm Đồng",
     "full_name_en": "Lam Dong Province",
     "code_name": "lam_dong",
-    "coordinates": [11.5753, 108.1429]
+    "coordinates": [11.936114028822528, 108.44291212518307]
   },
   {
     "id": 27,
@@ -267,7 +267,7 @@
     "full_name": "Tỉnh Đồng Nai",
     "full_name_en": "Dong Nai Province",
     "code_name": "dong_nai",
-    "coordinates": [10.9453, 106.8368]
+    "coordinates": [10.946022827522494, 106.81802035401073]
   },
   {
     "id": 28,
@@ -277,7 +277,7 @@
     "full_name": "Thành phố Hồ Chí Minh",
     "full_name_en": "Ho Chi Minh City",
     "code_name": "ho_chi_minh",
-    "coordinates": [10.8231, 106.6297]
+    "coordinates": [10.776537897836008, 106.70091426386236]
   },
   {
     "id": 29,
@@ -287,7 +287,7 @@
     "full_name": "Tỉnh Tây Ninh",
     "full_name_en": "Tay Ninh Province",
     "code_name": "tay_ninh",
-    "coordinates": [11.3351, 106.1098]
+    "coordinates": [11.314182144923988, 106.09379196020971]
   },
   {
     "id": 30,
@@ -297,7 +297,7 @@
     "full_name": "Tỉnh Đồng Tháp",
     "full_name_en": "Dong Thap Province",
     "code_name": "dong_thap",
-    "coordinates": [10.4938, 105.6881]
+    "coordinates": [10.460016192104456, 105.63269867204757]
   },
   {
     "id": 31,
@@ -307,7 +307,7 @@
     "full_name": "Tỉnh Vĩnh Long",
     "full_name_en": "Vinh Long Province",
     "code_name": "vinh_long",
-    "coordinates": [10.2395, 105.9572]
+    "coordinates": [10.25090775212136, 105.94706936995497]
   },
   {
     "id": 32,
@@ -317,7 +317,7 @@
     "full_name": "Tỉnh An Giang",
     "full_name_en": "An Giang Province",
     "code_name": "an_giang",
-    "coordinates": [10.5216, 105.1258]
+    "coordinates": [10.389981371725016, 105.43432951091171]
   },
   {
     "id": 33,
@@ -327,7 +327,7 @@
     "full_name": "Thành phố Cần Thơ",
     "full_name_en": "Can Tho City",
     "code_name": "can_tho",
-    "coordinates": [10.0452, 105.7469]
+    "coordinates": [10.0371046350348, 105.7882696311926]
   },
   {
     "id": 34,
@@ -337,6 +337,6 @@
     "full_name": "Tỉnh Cà Mau",
     "full_name_en": "Ca Mau Province",
     "code_name": "ca_mau",
-    "coordinates": [9.1526, 105.1960]
+    "coordinates": [9.176176020548045, 105.15211722882279]
   }
 ]
