@@ -14,6 +14,7 @@ from models.exceptions import (
     GraphNotBuiltError
 )
 from services.distance_service import DistanceCalculator
+from services.routing_service import RoutingService
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,7 @@ class PathfindingService:
         
         self.pathfinder = BFSPathfinder(self.graph)
         self.distance_calculator = DistanceCalculator()
+        self.routing_service = RoutingService()
         
         logger.info(
             f"PathfindingService initialized with {self.registry.count()} provinces"
@@ -106,6 +108,23 @@ class PathfindingService:
             result.road_segments = road_segments
             result.total_distance_km = total_distance
             result.road_type = road_type
+            
+            # Tính khoảng cách thực tế bằng OSRM API
+            try:
+                route_result = self.routing_service.get_route_through_waypoints(
+                    result.path
+                )
+                if route_result.success:
+                    result.real_distance_km = route_result.distance_km
+                    logger.info(
+                        f"Real distance (OSRM): {route_result.distance_km:.2f}km"
+                    )
+                else:
+                    logger.warning(
+                        f"Could not get real distance: {route_result.error_message}"
+                    )
+            except Exception as e:
+                logger.warning(f"Error getting real distance from OSRM: {e}")
             
             logger.info(
                 f"Path found: {result.distance} provinces, "

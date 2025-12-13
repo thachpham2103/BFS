@@ -69,6 +69,8 @@ class PathResult:
     road_segments: List['RoadSegment'] = field(default_factory=list)
     total_distance_km: float = 0.0
     road_type: Optional[str] = None
+    # Khoảng cách thực tế theo đường đi (từ OSRM API)
+    real_distance_km: Optional[float] = None
     
     def __post_init__(self) -> None:
         if not self.path:
@@ -109,7 +111,7 @@ class PathResult:
         return steps
     
     def to_dict(self) -> Dict:
-        return {
+        result = {
             "path": [p.name for p in self.path],
             "path_codes": [p.code for p in self.path],
             "path_coordinates": [
@@ -145,6 +147,12 @@ class PathResult:
             "execution_time_ms": self.execution_time * 1000,
             "timestamp": self.timestamp.isoformat()
         }
+        
+        # Thêm thông tin khoảng cách thực tế nếu có
+        if self.real_distance_km is not None:
+            result["real_distance_km"] = round(self.real_distance_km, 2)
+        
+        return result
     
     def get_summary(self) -> str:
         summary = f"Đường đi từ {self.start.name} đến {self.end.name}:\n"

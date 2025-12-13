@@ -136,7 +136,8 @@ class PathResponse(BaseModel):
         description="Danh sách tọa độ các tỉnh để vẽ bản đồ"
     )
     distance: int = Field(..., description="Số lượng tỉnh trong đường đi")
-    total_distance_km: float = Field(0.0, description="Tổng khoảng cách đường bộ (km)")
+    total_distance_km: float = Field(0.0, description="Tổng khoảng cách đường bộ ước lượng (km) - tính bằng tổng khoảng cách các đỉnh kề nhau")
+    real_distance_km: Optional[float] = Field(None, description="Khoảng cách thực tế theo đường đi (km) - từ OSRM/OpenStreetMap")
     road_type: Optional[str] = Field(None, description="Loại đường được chọn")
     start_province: dict = Field(..., description="Thông tin tỉnh bắt đầu với tọa độ")
     end_province: dict = Field(..., description="Thông tin tỉnh kết thúc với tọa độ")
@@ -158,6 +159,7 @@ class PathResponse(BaseModel):
                 ],
                 "distance": 3,
                 "total_distance_km": 180.5,
+                "real_distance_km": 195.3,
                 "road_type": "national",
                 "start_province": {
                     "code": "01",
