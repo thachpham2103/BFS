@@ -9,9 +9,10 @@ src_root = project_root / "src"
 sys.path.insert(0, str(project_root))
 sys.path.insert(0, str(src_root))
 
-from fastapi import FastAPI, status
+from fastapi import FastAPI, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 
 from config.settings import get_settings
 from data.data_loader import DataLoader
@@ -144,13 +145,53 @@ async def health_check() -> Dict:
         )
 
 # Error handlers
-@app.exception_handler(404)
-async def not_found_handler(request, exc):
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc: RequestValidationError):
+    """Xử lý lỗi validation với thông báo thân thiện."""
+    errors = exc.errors()
+    messages = []
+    
+    for err in errors:
+        field = err.get("loc", ["unknown"])[-1]
+        err_type = err.get("type", "")
+        
+        if err_type == "string_too_short" or err_type == "missing":
+            if field == "start":
+                messages.append("Vui lòng nhập tỉnh bắt đầu")
+            elif field == "end":
+                messages.append("Vui lòng nhập tỉnh kết thúc")
+            else:
+                messages.append(f"Trường '{field}' không được để trống")
+        elif err_type == "value_error":
+            messages.append(err.get("msg", "Giá trị không hợp lệ"))
+        else:
+            messages.append(f"Trường '{field}': {err.get('msg', 'không hợp lệ')}")
+    
     return JSONResponse(
-        status_code=status.HTTP_404_NOT_FOUND,
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         content={
-            "error": "NotFound",
-            "message": "Endpoint không tồn tại"
+            "error": "ValidationError",
+            "message": "; ".join(messages) if messages else "Dữ liệu đầu vào không hợp lệ"
+        }
+    )
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc: HTTPException):
+    """Xử lý HTTPException với thông báo thân thiện."""
+    error_type = "NotFound" if exc.status_code == 404 else "Error"
+    if exc.status_code == 422:
+        error_type = "ValidationError"
+    
+    message = exc.detail
+    if exc.status_code == 404 and message == "Not Found":
+        message = "Endpoint không tồn tại"
+    
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": error_type,
+            "message": message
         }
     )
 

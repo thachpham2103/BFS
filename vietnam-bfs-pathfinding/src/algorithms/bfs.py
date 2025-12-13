@@ -75,41 +75,32 @@ class BFSPathfinder:
         )
     
     def _bfs(self, start: str, end: str) -> Optional[List[str]]:
-        queue: deque = deque([start])
+        """Thuật toán BFS tìm đường đi ngắn nhất.
+        """
+        if start == end:
+            return [start]
+        if not self.graph.has_province(start) or not self.graph.has_province(end):
+            return None
+        
+        queue: deque = deque([[start]])
         visited: Set[str] = {start}
-        parent: Dict[str, Optional[str]] = {start: None}
         
         while queue:
-            current = queue.popleft()
-
-            if current == end:
-                return self._reconstruct_path(parent, start, end)
+            path = queue.popleft()
+            current = path[-1]
             
             for neighbor in self.graph.get_neighbors(current):
                 if neighbor not in visited:
+                    new_path = path + [neighbor]
+                    
+                    if neighbor == end:
+                        return new_path
+                    
                     visited.add(neighbor)
-                    parent[neighbor] = current
-                    queue.append(neighbor)
+                    queue.append(new_path)
         
         return None
-    
-    def _reconstruct_path(
-        self,
-        parent: Dict[str, Optional[str]],
-        start: str,
-        end: str
-    ) -> List[str]:
 
-        path = []
-        current = end
-        
-        while current is not None:
-            path.append(current)
-            current = parent[current]
-        path.reverse()
-        return path
-
-    # Tìm tất cả tỉnh có thể đi đến
     def find_all_paths_from(
         self,
         start_code: str,
