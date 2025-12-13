@@ -5,7 +5,7 @@ from typing import Optional
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
-
+# class config cơ bản cho FastApi
 class Settings(BaseSettings):
 
     # Application settings
@@ -14,12 +14,7 @@ class Settings(BaseSettings):
         default="INFO",
         description="Logging level"
     )
-    
-    # API settings
-    api_host: str = Field(
-        default="0.0.0.0",
-        description="API server host"
-    )
+
     api_port: int = Field(
         default=8000,
         description="API server port"
@@ -40,7 +35,6 @@ class Settings(BaseSettings):
     )
     
     class Config:
-        """Pydantic configuration."""
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = False
