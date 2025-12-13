@@ -68,7 +68,7 @@ class DistanceCalculator:
         province2: Province,
         road_type: RoadType = RoadType.UNKNOWN
     ) -> float:
-        """Ước lượng khoảng cách đường bộ
+        """Ước lượng khoảng cách
         
         Sử dụng khoảng cách đường chim bay * hệ số điều chỉnh
         
@@ -79,9 +79,7 @@ class DistanceCalculator:
             
         Returns:
             Khoảng cách ước lượng (km)
-            
-        Raises:
-            ValueError: Nếu thiếu tọa độ
+
         """
         if not all([
             province1.latitude, province1.longitude,

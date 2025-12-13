@@ -80,15 +80,9 @@ class Province:
             longitude=longitude,
             neighbors=data.get("neighbors", [])
         )
-    
+
     def __str__(self) -> str:
         return f"{self.name} ({self.code})"
-    
-    def __repr__(self) -> str:
-        return (
-            f"Province(code='{self.code}', name='{self.name}', "
-            f"neighbors={self.neighbor_count})"
-        )
 
 
 class ProvinceRegistry:

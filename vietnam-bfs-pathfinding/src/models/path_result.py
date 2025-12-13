@@ -154,36 +154,3 @@ class PathResult:
         
         return result
     
-    def get_summary(self) -> str:
-        summary = f"Đường đi từ {self.start.name} đến {self.end.name}:\n"
-        summary += " → ".join(self.province_names)
-        summary += f"\n\nTổng số tỉnh: {self.distance}"
-        summary += f"\nThời gian tìm kiếm: {self.execution_time * 1000:.2f}ms"
-        return summary
-    
-    def visualize(self, numbered: bool = True) -> str:
-        lines = []
-        lines.append(f"Đường đi từ {self.start.name} đến {self.end.name}")
-        lines.append("=" * 60)
-        
-        for i, province in enumerate(self.path, 1):
-            if numbered:
-                lines.append(f"{i:2d}. {province.name}")
-            else:
-                arrow = "   → " if i > 1 else "   "
-                lines.append(f"{arrow}{province.name}")
-        
-        lines.append("=" * 60)
-        lines.append(f"Tổng số tỉnh: {self.distance}")
-        lines.append(f"Thời gian: {self.execution_time * 1000:.2f}ms")
-        
-        return "\n".join(lines)
-    
-    def __str__(self) -> str:
-        return f"Path from {self.start.name} to {self.end.name} ({self.distance} provinces)"
-    
-    def __repr__(self) -> str:
-        return (
-            f"PathResult(start={self.start.code}, end={self.end.code}, "
-            f"distance={self.distance}, time={self.execution_time:.4f}s)"
-        )

@@ -197,48 +197,6 @@ class PathfindingService:
         
         return results
     
-    def get_reachable_provinces(
-        self,
-        start: Union[str, Province],
-        max_distance: Optional[int] = None
-    ) -> Dict[str, Dict]:
-        start_province = self._resolve_province(start, fuzzy_match=True, field_name="start")
-        
-        logger.info(
-            f"Finding reachable provinces from {start_province.name} "
-            f"(max_distance: {max_distance})"
-        )
-        
-        distances = self.pathfinder.find_all_paths_from(
-            start_province.code,
-            max_distance
-        )
-        
-        result = {}
-        for code, distance in distances.items():
-            province = self.registry.get_by_code(code)
-            if province:
-                result[code] = {
-                    "code": code,
-                    "name": province.name,
-                    "full_name": province.full_name,
-                    "distance": distance
-                }
-        
-        logger.info(f"Found {len(result)} reachable provinces")
-        
-        return result
-    
-    def check_connectivity(
-        self,
-        province1: Union[str, Province],
-        province2: Union[str, Province]
-    ) -> bool:
-        p1 = self._resolve_province(province1, fuzzy_match=True, field_name="province1")
-        p2 = self._resolve_province(province2, fuzzy_match=True, field_name="province2")
-        
-        return self.pathfinder.is_connected(p1.code, p2.code)
-    
     def get_province_info(
         self,
         identifier: Union[str, Province]

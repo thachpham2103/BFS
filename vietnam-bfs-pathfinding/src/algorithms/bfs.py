@@ -1,6 +1,4 @@
 """Thuật toán tìm đường đi bằng BFS cho ứng dụng Tìm khoảng cách.
-Độ phức tạp thời gian: O(V + E) với V = số đỉnh, E = số cạnh
-Độ phức tạp bộ nhớ: O(V)
 """
 
 import time
@@ -8,7 +6,6 @@ from collections import deque
 from typing import Dict, List, Optional, Set
 
 from graph.province_graph import ProvinceGraph
-from models.province import Province
 from models.path_result import PathResult
 from models.exceptions import GraphNotBuiltError, NoPathFoundError
 
@@ -111,7 +108,8 @@ class BFSPathfinder:
             current = parent[current]
         path.reverse()
         return path
-    
+
+    # Tìm tất cả tỉnh có thể đi đến
     def find_all_paths_from(
         self,
         start_code: str,
@@ -139,7 +137,7 @@ class BFSPathfinder:
                     queue.append((neighbor, new_distance))
         
         return distances
-    
+    #Check 2 tỉnh có đi đến được hay ko
     def is_connected(self, code1: str, code2: str) -> bool:
 
         if not self.graph.has_province(code1):
@@ -166,8 +164,8 @@ class BFSPathfinder:
         
         return False
     
-    def get_graph_stats(self) -> Dict:
-        return self.graph.get_stats()
-    
-    def __repr__(self) -> str:
-        return f"BFSPathfinder(graph={self.graph})"
+    # def get_graph_stats(self) -> Dict:
+    #     return self.graph.get_stats()
+    #
+    # def __repr__(self) -> str:
+    #     return f"BFSPathfinder(graph={self.graph})"

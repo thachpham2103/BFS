@@ -1,5 +1,5 @@
 import logging
-from typing import Dict
+from typing import Dict, Any, Coroutine
 
 from fastapi import APIRouter, HTTPException, status, Depends
 
@@ -79,41 +79,19 @@ async def find_path(
         return response
         
     except ProvinceNotFoundError as e:
-        logger.warning(f"Province not found: {e}")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail={
-                "error": "ProvinceNotFoundError",
-                "message": str(e),
-                "suggestions": e.suggestions
-            }
+            detail=str(e)
         )
     except NoPathFoundError as e:
-        logger.warning(f"No path found: {e}")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail={
-                "error": "NoPathFoundError",
-                "message": str(e)
-            }
+            detail=str(e)
         )
     except InvalidInputError as e:
-        logger.warning(f"Invalid input: {e}")
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail={
-                "error": "InvalidInputError",
-                "message": str(e)
-            }
-        )
-    except Exception as e:
-        logger.error(f"Unexpected error: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail={
-                "error": "InternalServerError",
-                "message": "Lỗi hệ thống không xác định"
-            }
+            detail=str(e)
         )
 
 
@@ -128,52 +106,34 @@ async def find_path(
         422: {"model": ErrorResponse}
     }
 )
-async def get_reachable_provinces(
+async def find_reachable(
     request: ReachableRequest,
     service: PathfindingService = Depends(get_service)
 ) -> Dict:
     try:
-        logger.info(
-            f"Finding reachable provinces from {request.start} "
-            f"(max_distance: {request.max_distance})"
+        results = service.find_reachable(
+            start=request.start,
+            max_distance=request.max_distance,
+            fuzzy_match=request.fuzzy_match
         )
-        
-        result = service.get_reachable_provinces(
-            request.start,
-            max_distance=request.max_distance
-        )
-        
-        logger.info(f"Found {len(result)} reachable provinces")
-        
-        return result
-        
+        return {
+            code: ReachableProvinceSchema(
+                code=p.code,
+                name=p.name,
+                distance=d
+            )
+            for code, (p, d) in results.items()
+        }
+    
     except ProvinceNotFoundError as e:
-        logger.warning(f"Province not found: {e}")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail={
-                "error": "ProvinceNotFoundError",
-                "message": str(e),
-                "suggestions": e.suggestions
-            }
+            detail=str(e)
         )
     except InvalidInputError as e:
-        logger.warning(f"Invalid input: {e}")
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail={
-                "error": "InvalidInputError",
-                "message": str(e)
-            }
-        )
-    except Exception as e:
-        logger.error(f"Unexpected error: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail={
-                "error": "InternalServerError",
-                "message": "Lỗi hệ thống không xác định"
-            }
+            detail=str(e)
         )
 
 
@@ -205,9 +165,6 @@ async def check_connectivity(
             request.province1,
             request.province2
         )
-        
-        logger.info(f"Connectivity: {connected}")
-        
         return {
             "province1": {
                 "code": p1_info["code"],
@@ -221,30 +178,12 @@ async def check_connectivity(
         }
         
     except ProvinceNotFoundError as e:
-        logger.warning(f"Province not found: {e}")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail={
-                "error": "ProvinceNotFoundError",
-                "message": str(e),
-                "suggestions": e.suggestions
-            }
+            detail=str(e)
         )
     except InvalidInputError as e:
-        logger.warning(f"Invalid input: {e}")
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail={
-                "error": "InvalidInputError",
-                "message": str(e)
-            }
-        )
-    except Exception as e:
-        logger.error(f"Unexpected error: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail={
-                "error": "InternalServerError",
-                "message": "Lỗi hệ thống không xác định"
-            }
+            detail=str(e)
         )

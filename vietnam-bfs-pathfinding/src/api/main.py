@@ -18,7 +18,7 @@ from data.data_loader import DataLoader
 from models.province import ProvinceRegistry
 from services.pathfinding_service import PathfindingService
 from api.routes import path_routes, province_routes
-from api.schemas import HealthResponse, StatisticsResponse
+from api.schemas import HealthResponse
 
 logging.basicConfig(
     level=logging.INFO,
@@ -75,7 +75,6 @@ async def lifespan(app: FastAPI):
             f"API started successfully with {registry.count()} provinces"
             f"\nURl:      localhost:{settings.api_port}/docs#/"
         )
-        
         yield
         
     except Exception as e:
@@ -175,7 +174,7 @@ if __name__ == "__main__":
     
     uvicorn.run(
         "api.main:app",
-        host=settings.api_host,
+        # host=settings.api_host,
         port=settings.api_port,
         reload=settings.debug,
         log_level="info"
