@@ -3,20 +3,17 @@ Tính khoảng cách đường đi thực tế sử dụng OpenRouteService API
 
 OpenRouteService (ORS) là dịch vụ routing miễn phí
 sử dụng dữ liệu OpenStreetMap, cho kết quả chính xác.
-
-OSRM (Open Source Routing Machine) là dịch vụ routing miễn phí
-sử dụng dữ liệu OpenStreetMap, cho kết quả chính xác như Google Maps.
 """
 
 import logging
 import time
+import os
 from typing import List, Optional
 from dataclasses import dataclass
 
 import httpx
 
 from models.province import Province
-from config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -44,10 +41,10 @@ class RoutingService:
     MAX_RETRIES = 2
     RETRY_DELAY = 1.0
     
-    DEFAULT_API_KEY = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImEzYjgwZmQwYmQxMjRkM2VhMjVmNzFkMmZiZWE2YTVjIiwiaCI6Im11cm11cjY0In0="
-    
-    def __init__(self, api_key: Optional[str] = None):
-        self.api_key = api_key or self.DEFAULT_API_KEY
+    def __init__(self):
+        self.api_key = (
+            os.getenv("open-router-key")
+        )
         self.base_url = self.ORS_BASE_URL
     
     def _get_headers(self) -> dict:
