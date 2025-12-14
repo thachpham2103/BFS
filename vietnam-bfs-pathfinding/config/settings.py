@@ -34,6 +34,11 @@ class Settings(BaseSettings):
         description="Adjacency data filename"
     )
     
+    ors_api_key: str = Field(
+        default="",
+        description="OpenRouteService API key"
+    )
+    
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

@@ -196,6 +196,55 @@ class PathfindingService:
                 continue
         
         return results
+
+    def find_reachable(
+        self,
+        start: Union[str, Province],
+        max_distance: Optional[int] = None,
+        fuzzy_match: bool = True
+    ) -> Dict[str, tuple]:
+        """Tìm tất cả các tỉnh có thể đến được từ tỉnh bắt đầu.
+        
+        Args:
+            start: Tỉnh bắt đầu (mã, tên hoặc đối tượng Province)
+            max_distance: Khoảng cách tối đa (số bước). None = không giới hạn
+            fuzzy_match: Cho phép tìm kiếm gần đúng tên tỉnh
+            
+        Returns:
+            Dict với key là mã tỉnh, value là tuple (Province, distance)
+        """
+        start_province = self._resolve_province(start, fuzzy_match, field_name="start")
+        
+        logger.info(
+            f"Finding reachable provinces from {start_province.name} "
+            f"(max_distance: {max_distance})"
+        )
+        
+        distances = self.pathfinder.find_all_paths_from(
+            start_province.code,
+            max_distance=max_distance
+        )
+        
+        results = {}
+        for code, distance in distances.items():
+            province = self.registry.get_by_code(code)
+            if province:
+                results[code] = (province, distance)
+        
+        logger.info(f"Found {len(results)} reachable provinces")
+        return results
+
+    def check_connectivity(
+        self,
+        province1: Union[str, Province],
+        province2: Union[str, Province],
+        fuzzy_match: bool = True
+    ) -> bool:
+
+        p1 = self._resolve_province(province1, fuzzy_match=fuzzy_match, field_name="province1")
+        p2 = self._resolve_province(province2, fuzzy_match=fuzzy_match, field_name="province2")
+        
+        return self.pathfinder.is_connected(p1.code, p2.code)
     
     def get_province_info(
         self,

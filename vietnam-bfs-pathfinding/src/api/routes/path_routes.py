@@ -120,6 +120,7 @@ async def find_reachable(
             code: ReachableProvinceSchema(
                 code=p.code,
                 name=p.name,
+                full_name=p.full_name,
                 distance=d
             )
             for code, (p, d) in results.items()

@@ -229,6 +229,10 @@ class ReachableRequest(BaseModel):
         description="Khoảng cách tối đa",
         ge=1
     )
+    fuzzy_match: bool = Field(
+        default=True,
+        description="Cho phép tìm kiếm gần đúng"
+    )
     
     @field_validator('start')
     @classmethod
@@ -241,7 +245,8 @@ class ReachableRequest(BaseModel):
         "json_schema_extra": {
             "example": {
                 "start": "Hà Nội",
-                "max_distance": 3
+                "max_distance": 3,
+                "fuzzy_match": True
             }
         }
     }
